@@ -5,9 +5,9 @@ Single-step conversion between JSON, YAML, CSON, PLIST, and TOML
 npm install multigrain
 ```
 
-## Use
+Multigrain provides simple conversion between common serial formats, avoiding the need to manually chain processors when a variety of formats and conversions are necessary. This can be particularly useful when multiple consumers require the same information in different serialized formats, such as [language grammars]().
 
-Multigrain provides simple conversion between common serial formats, avoiding the need to manually chain processors when a variety of formats and conversions are necessary.
+## Use
 
 The most basic use is to call the desired output format function and pass an input string or JavaScript object. Multigrain will return a string in the requested format. If a string is passed as input, Multigrain will use some simple heuristics to infer the input format.
 
