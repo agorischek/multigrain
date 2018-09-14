@@ -34,12 +34,12 @@ const multigrain = {
 
 function toJson(content, format, toJsonOpts){
 
-    var interpretation = "json"
+    var interpretation = ""
     if (format){
         interpretation = format
     }
     else{
-        interpration = inferFormat(content)
+        interpretation = inferFormat(content)
     }
 
     if(interpretation == "cson"){
