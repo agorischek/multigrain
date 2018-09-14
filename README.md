@@ -1,43 +1,55 @@
 # Multigrain
 Single-step conversion between JSON, YAML, CSON, PLIST, and TOML
 
-Multigrain provides simple conversion between common serial formats.
-
 ```sh
 npm install multigrain
 ```
 
 ## Use
 
-The most basic use is to tell it the output format you want, and pass it the input. Multigrain will use some simple heuristics to guess the input format.
+Multigrain provides simple conversion between common serial formats, avoiding the need to manually chain processors when a variety of formats and conversions are necessary.
+
+The most basic use is to call the desired output format function and pass the input string. Multigrain will use some simple heuristics to guess the input format, and will return a string in the requested format.
 
 ```js
-multigrain.cson(content)
+multigrain.json(input)
+multigrain.yaml(input)
+multigrain.cson(input)
+multigrain.plist(input)
+multigrain.toml(input)
 ```
 
-You can also pass the input content type explicitly. Unless you’re truly not sure what the input format is, this is recommended.
+Alternatively, `parse` will return a native JavaScript object.
 
 ```js
-multigrain.json(content, type)
+Multigrain.parse(input)
 ```
 
-All input is converted to a JSON intermediary regardless of the target output. If you need to pass options to the underlying parser, they can be passed as an array that will get expanded:
+You can also pass the input format explicitly ('json', 'yaml', 'cson', 'plist', or 'toml'). Unless the input format can vary unpredictably, this is recommended.
 
 ```js
-Multigrain.cson(content, type, [toJsonOpts])
+multigrain.cson(input, "yaml")
 ```
 
-You can also send options to the output generator:
+Options supported by the underlying parser can be passed as an optional object argument.
 
 ```js
-Multigrain.cson(content, type, [toJsonOpts], [toTargetOpts])
+multigrain.yaml(input, "cson", parseOpts)
+```
+
+Supported build options can optionally be passed similarly:
+
+```js
+multigrain.plist(input, "toml", parseOpts, buildOpts)
 ```
 
 ## Processors
 
-Multigrain uses the following parsers/generators:
+Multigrain uses the following processors for parsing and building:
 
-- YAML:
-- CSON:
-- PLIST:
-- TOML:
+- YAML: [yamljs]()
+- CSON: [cson]()
+- PLIST: [plist]()
+- TOML: [@iarna/toml]()
+
+Reference their respective documentation for parse and build options.
