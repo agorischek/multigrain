@@ -38,7 +38,7 @@ const multigrain = {
 
 function parse(content, format, toJsonOpts){
 
-    var interpretation = "json"
+    var interpretation = ""
     if (format){
         interpretation = format
     }
