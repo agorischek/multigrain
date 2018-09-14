@@ -6,6 +6,10 @@ const tomlProcessor = require('toml');
 const fs = require('fs');
 
 const multigrain = {
+    parse: function(content, format, parseOpts, buildOpts){
+        const nativeObject = parse
+        return nativeObject
+    },
     json: function(content, format, toJsonOpts, toTargetOpts){
         const json = toJson(content, format, toJsonOpts)
         return json
@@ -32,7 +36,7 @@ const multigrain = {
     }
 }
 
-function toJson(content, format, toJsonOpts){
+function parse(content, format, toJsonOpts){
 
     var interpretation = "json"
     if (format){
@@ -64,7 +68,7 @@ function toJson(content, format, toJsonOpts){
     }
 }
 
-function toTarget(json, target, toTargetOpts){
+function build(json, target, toTargetOpts){
     if(target == "cson"){
         const cson = csonProcessor(json, format, toTargetOpts)
         return cson
