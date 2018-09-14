@@ -1,38 +1,39 @@
 const yamlProcessor = require('yamljs');
 const csonProcessor = require('cson');
 const plistProcessor = require('plist');
-const tomlProcessor = require('toml');
+const tomlProcessor = require('@iarna/toml');
 
 const fs = require('fs');
 
 const multigrain = {
-    json: function(content, format, toJsonOpts, toTargetOpts){
-        const json = toJson(content, format, toJsonOpts)
+    json: function(content, format, toObjectOpts, toTargetOpts){
+        const object = toObject(content, format, toObjectOpts)
+        const json = toTarget(object, "json", toTargetOpts)
         return json
     },
-    cson: function(content, format, toJsonOpts, toTargetOpts){
-        const json = toJson(content, format, toJsonOpts)
-        const cson = toTarget(json, "cson", toTargetOpts)
+    cson: function(content, format, toObjectOpts, toTargetOpts){
+        const object = toObject(content, format, toObjectOpts)
+        const cson = toTarget(object, "cson", toTargetOpts)
         return cson
     },
-    yaml: function(content, format, toJsonOpts, toTargetOpts){
-        const json = toJson(content, format, toJsonOpts)
-        const yaml = toTarget(json, "yaml", toTargetOpts)
+    yaml: function(content, format, toObjectOpts, toTargetOpts){
+        const object = toObject(content, format, toObjectOpts)
+        const yaml = toTarget(object, "yaml", toTargetOpts)
         return yaml
     },
-    plist: function(content, format, toJsonOpts, toTargetOpts){
-        const json = toJson(content, format, toJsonOpts)
-        const plist = toTarget(json, "plist", toTargetOpts)
+    plist: function(content, format, toObjectOpts, toTargetOpts){
+        const object = toObject(content, format, toObjectOpts)
+        const plist = toTarget(object, "plist", toTargetOpts)
         return plist
     },
-    toml: function(content, format, toJsonOpts, toTargetOpts){
-        const json = toJson(content, format, toJsonOpts)
-        const toml = toTarget(json, "toml", toTargetOpts)
+    toml: function(content, format, toObjectOpts, toTargetOpts){
+        const object = toObject(content, format, toObjectOpts)
+        const toml = toTarget(object, "toml", toTargetOpts)
         return toml
     }
 }
 
-function toJson(content, format, toJsonOpts){
+function toObject(content, format, toObjectOpts){
 
     var interpretation = ""
     if (format){
@@ -42,47 +43,55 @@ function toJson(content, format, toJsonOpts){
         interpretation = inferFormat(content)
     }
 
+    var args = []
+    if(toObjectOpts){
+        args = toObjectOpts.unshift(content)
+    }
+    else{
+        args = toObjectOpts
+    }
+
     if(interpretation == "cson"){
-        const json = csonProcessor(content, interpretation, toJsonOpts)
-        return json
+        const object = csonProcessor.parseCSONString(content, toObjectOpts)
+        return object
     }
     else if(interpretation == "yaml"){
-        const json = yamlProcessor(content, interpretation, toJsonOpts)
-        return json
+        const object = yamlProcessor.parse(content, toObjectOpts)
+        return object
     }
     else if(interpretation == "plist"){
-        const json = plistProcessor(content, interpretation, toJsonOpts)
-        return json
+        const object = plistProcessor.parse(content, toObjectOpts)
+        return object
     }
     else if(interpretation == "toml"){
-        const json = tomlProcessor(content, interpretation, toJsonOpts)
-        return json
+        const object = tomlProcessor.parse(content, toObjectOpts)
+        return object
     }
     else if(interpretation == "json"){
-        const json = content
-        return json
+        const object = JSON.parse(content)
+        return object
     }
 }
 
-function toTarget(json, target, toTargetOpts){
+function toTarget(object, target, toTargetOpts){
     if(target == "cson"){
-        const cson = csonProcessor(json, format, toTargetOpts)
+        const cson = csonProcessor.createCSONString(object, toTargetOpts)
         return cson
     }
     else if(target == "yaml"){
-        const yaml = yamlProcessor(json, format, toTargetOpts)
+        const yaml = yamlProcessor.stringify(object, toTargetOpts)
         return yaml
     }
     else if(target == "plist"){
-        const plist = plistProcessor(json, format, toTargetOpts)
+        const plist = plistProcessor.build(object, toTargetOpts)
         return plist
     }
     else if(target == "toml"){
-        const toml = tomlProcessor(json, format, toTargetOpts)
+        const toml = tomlProcessor.stringify(object, toTargetOpts)
         return toml
     }
     else if(target == "json"){
-        return json
+        return JSON.stringify(object)
     }
 }
 
