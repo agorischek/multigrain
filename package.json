@@ -25,5 +25,11 @@
     "url": "https://github.com/agorischek/multigrain/issues"
   },
   "homepage": "https://github.com/agorischek/multigrain#readme",
-  "private":true
+  "private": true,
+  "dependencies": {
+    "cson": "^5.1.0",
+    "plist": "^3.0.1",
+    "toml": "^2.3.3",
+    "yamljs": "^0.3.0"
+  }
 }
