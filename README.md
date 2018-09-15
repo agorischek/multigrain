@@ -49,7 +49,7 @@ multigrain.cson(input, "json", parseOpts, buildOpts)
 
 Multigrain uses the following processors for parsing and building:
 
-- YAML: [yamljs](https://www.npmjs.com/package/yamljs)
+- YAML: [yaml](https://www.npmjs.com/package/yaml)
 - CSON: [cson](https://www.npmjs.com/package/cson)
 - PLIST: [plist](https://www.npmjs.com/package/plist)
 - TOML: [@iarna/toml](https://www.npmjs.com/package/@iarna/toml)
