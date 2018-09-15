@@ -2,7 +2,7 @@
   "name": "multigrain",
   "version": "0.0.1",
   "description": "Single-step conversion between JSON, YAML, CSON, PLIST, and TOML.",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
