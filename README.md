@@ -27,13 +27,13 @@ Alternatively, `parse` will return a native JavaScript object.
 multigrain.parse(input)
 ```
 
-You can also pass the input format explicitly (`json`, `yaml`, `cson`, `plist`, or `toml`). Unless the input format can vary unpredictably, this is recommended.
+You can pass the input format explicitly (`json`, `yaml`, `cson`, `plist`, or `toml`) as the second argument. Unless your input format can vary unpredictably, this is recommended.
 
 ```js
 multigrain.json(input, "toml")
 ```
 
-Options supported by the underlying parser can be passed as an optional object argument.
+Options supported by the underlying parser can be passed as an optional argument.
 
 ```js
 multigrain.yaml(input, "plist", parseOpts)
@@ -54,4 +54,4 @@ Multigrain uses the following processors for parsing and building:
 - PLIST: [plist](https://www.npmjs.com/package/plist)
 - TOML: [@iarna/toml](https://www.npmjs.com/package/@iarna/toml)
 
-Reference their respective documentation for parse and build options.
+See their respective documentation for parse and build options.
