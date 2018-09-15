@@ -4,8 +4,6 @@ const plistProcessor = require('plist');
 const tomlProcessor = require('@iarna/toml');
 const jsonProcessor = JSON;
 
-const fs = require('fs');
-
 const multigrain = {
     json: function(content, format, parseOpts, buildOpts){
         const object = parse(content, format, parseOpts)
