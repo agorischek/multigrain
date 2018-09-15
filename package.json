@@ -25,7 +25,6 @@
     "url": "https://github.com/agorischek/multigrain/issues"
   },
   "homepage": "https://github.com/agorischek/multigrain#readme",
-  "private": true,
   "dependencies": {
     "@iarna/toml": "^2.2.0",
     "cson": "^5.1.0",
