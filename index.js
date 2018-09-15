@@ -2,6 +2,7 @@ const yamlProcessor = require('yamljs');
 const csonProcessor = require('cson');
 const plistProcessor = require('plist');
 const tomlProcessor = require('@iarna/toml');
+const jsonProcessor = JSON;
 
 const fs = require('fs');
 
@@ -54,7 +55,7 @@ function parse(content, format, parseOpts){
         return object
     }
     else if(interpretation == "json"){
-        const object = JSON.parse(content)
+        const object = jsonProcessor.parse(content)
         return object
     }
 }
@@ -77,7 +78,7 @@ function build(object, target, buildOpts){
         return toml
     }
     else if(target == "json"){
-        return JSON.stringify(object)
+        return jsonProcessor.stringify(object)
     }
 }
 
