@@ -28,19 +28,19 @@ multigrain.parse(input)
 You can also pass the input format explicitly ('json', 'yaml', 'cson', 'plist', or 'toml'). Unless the input format can vary unpredictably, this is recommended.
 
 ```js
-multigrain.cson(input, "yaml")
+multigrain.json(input, "toml")
 ```
 
 Options supported by the underlying parser can be passed as an optional object argument.
 
 ```js
-multigrain.yaml(input, "cson", parseOpts)
+multigrain.yaml(input, "plist", parseOpts)
 ```
 
 Supported build options can optionally be passed similarly:
 
 ```js
-multigrain.plist(input, "toml", parseOpts, buildOpts)
+multigrain.cson(input, "json", parseOpts, buildOpts)
 ```
 
 ## Processors
