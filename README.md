@@ -27,7 +27,7 @@ Alternatively, `parse` will return a native JavaScript object.
 multigrain.parse(input)
 ```
 
-You can also pass the input format explicitly ('json', 'yaml', 'cson', 'plist', or 'toml'). Unless the input format can vary unpredictably, this is recommended.
+You can also pass the input format explicitly (`json`, `yaml`, `cson`, `plist`, or `toml`). Unless the input format can vary unpredictably, this is recommended.
 
 ```js
 multigrain.json(input, "toml")
