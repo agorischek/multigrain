@@ -1,7 +1,7 @@
-<img alt="Multigrain logo" src="img/logo.png" width="200px" height = "200px" />
+<img alt="Multigrain logo" src="img/logo.png" width="195px" height = "195px" />
 
 # Multigrain
-Single-step conversion between JSON, YAML, CSON, PLIST, and TOML
+Single-step conversion between JSON, YAML, CSON, PLIST, & TOML.
 
 ```sh
 npm install multigrain
