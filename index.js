@@ -96,7 +96,18 @@ function toTarget(object, target, toTargetOpts){
 }
 
 function inferFormat(content){
-    return "json"
+    if(content.match(/^\s*{/)){
+        return "json"
+    }
+    else if(content.match(/^\s*</)){
+        return "plist"
+    }
+    else if(content.match(/^\s*%/)){
+        return "yaml"
+    }
+    else if(content.match(/^\s*---/)){
+        return "yaml"
+    }
 }
 
 module.exports = multigrain
