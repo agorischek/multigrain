@@ -35,15 +35,7 @@ const multigrain = {
 
 function parse(content, format, parseOpts){
 
-    interpretation = determineInterpretation(content, format)
-
-    var args = []
-    if(parseOpts){
-        args = parseOpts.unshift(content)
-    }
-    else{
-        args = parseOpts
-    }
+    const interpretation = determineInterpretation(content, format)
 
     if(interpretation == "cson"){
         const object = csonProcessor.parseCSONString(content, parseOpts)
