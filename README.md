@@ -5,7 +5,7 @@ Single-step conversion between JSON, YAML, CSON, PLIST, and TOML
 npm install multigrain
 ```
 
-Multigrain provides simple conversion between common serial formats, avoiding the need to manually chain processors when a variety of formats and conversions are necessary. This can be particularly useful when multiple consumers require the same information in different serialized formats, such as [language grammars]().
+Multigrain provides simple conversion between common serial formats, avoiding the need to manually chain processors with differing syntaxes when a variety of formats and conversions are necessary. This can be particularly useful when multiple consumers require the same information in different serialized formats, such as [language grammars]().
 
 ## Use
 
