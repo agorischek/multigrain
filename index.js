@@ -33,7 +33,7 @@ const multigrain = {
     }
 }
 
-function toObject(content, format, toObjectOpts){
+function parse(content, format, toJsonOpts){
 
     var interpretation = ""
     if (format){
@@ -73,7 +73,7 @@ function toObject(content, format, toObjectOpts){
     }
 }
 
-function toTarget(object, target, toTargetOpts){
+function build(json, target, toTargetOpts){
     if(target == "cson"){
         const cson = csonProcessor.createCSONString(object, toTargetOpts)
         return cson
