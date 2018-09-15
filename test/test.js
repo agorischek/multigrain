@@ -85,6 +85,10 @@ describe("Multigrain", function(){
         assert.equal(multigrain.cson('{"a":{"b":"c"}}', "json", null, {indent:"\t\t"}), 'a:\n\t\tb: "c"')
     })
 
+    it("should pass through a JSON object when parsing", function(){
+        assert.deepEqual(multigrain.parse({a: "b"}), {a:"b"})
+    })
+
 })
 
 describe("Format interpreter", function(){
