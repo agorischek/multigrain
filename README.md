@@ -47,9 +47,9 @@ multigrain.plist(input, "toml", parseOpts, buildOpts)
 
 Multigrain uses the following processors for parsing and building:
 
-- YAML: [yamljs]()
-- CSON: [cson]()
-- PLIST: [plist]()
-- TOML: [@iarna/toml]()
+- YAML: [yamljs](https://www.npmjs.com/package/yamljs)
+- CSON: [cson](https://www.npmjs.com/package/cson)
+- PLIST: [plist](https://www.npmjs.com/package/plist)
+- TOML: [@iarna/toml](https://www.npmjs.com/package/@iarna/toml)
 
 Reference their respective documentation for parse and build options.
