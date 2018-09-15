@@ -55,6 +55,16 @@ describe("Multigrain", function(){
     it("should parse CSON into a JavaScript opbject", function(){
         assert.deepEqual(multigrain.parse('{"key":"value"}', "json"), {key:'value'})
     })
+    it("should parse YAML into a JavaScript opbject", function(){
+        assert.deepEqual(multigrain.parse('{"key":"value"}', "yaml"), {key:'value'})
+    })
+    it("should parse PLIST into a JavaScript opbject", function(){
+        assert.deepEqual(multigrain.parse('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"><plist version="1.0"><dict><key>key</key><string>value</string></dict></plist>', "plist"), {key:'value'})
+    })
+    it("should parse TOML into a JavaScript opbject", function(){
+        assert.deepEqual(multigrain.parse('key = "value"', "toml"), {key:'value'})
+    })
+
     it("should convert unspecified CSON to JSON", function(){
         assert.deepEqual(multigrain.parse('key:"value"', "cson"), {key:'value'})
     })
