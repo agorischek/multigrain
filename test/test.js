@@ -52,15 +52,31 @@ describe("Multigrain", function(){
         assert.equal(multigrain.json('key = "value"'), '{"key":"value"}')
     })
 
+    it("should parse CSON into a JavaScript opbject", function(){
+        assert.deepEqual(multigrain.parse('{"key":"value"}', "json"), {key:'value'})
+    })
+    it("should convert unspecified CSON to JSON", function(){
+    assert.deepEqual(multigrain.parse('key:"value"', "cson"), {key:'value'})
+    })
+    it("should convert unspecified YAML to JSON", function(){
+    assert.deepEqual(multigrain.parse('key: value', "yaml"), {key:'value'})
+    })
+    it("should convert unspecified PLIST to JSON", function(){
+    assert.deepEqual(multigrain.parse('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"><plist version="1.0"><dict><key>key</key><string>value</string></dict></plist>', "plist"), {key:'value'})
+    })
+    it("should convert unspecified TOML to JSON", function(){
+    assert.deepEqual(multigrain.parse('key = "value"', "toml"), {key:'value'})
+    })
+
 })
 
 describe("Format interpreter", function(){
     it("should return explicit format string", function(){
-        assert.equal(determineInterpretation(null, "json"), "json")
-        assert.equal(determineInterpretation(null, "cson"), "cson")
-        assert.equal(determineInterpretation(null, "yaml"), "yaml")
-        assert.equal(determineInterpretation(null, "plist"), "plist")
-        assert.equal(determineInterpretation(null, "toml"), "toml")
+        assert.equal(determineInterpretation("", "json"), "json")
+        assert.equal(determineInterpretation("", "cson"), "cson")
+        assert.equal(determineInterpretation("", "yaml"), "yaml")
+        assert.equal(determineInterpretation("", "plist"), "plist")
+        assert.equal(determineInterpretation("", "toml"), "toml")
     })
     it("should guess format when not specified", function(){
         assert.equal(determineInterpretation('{"key":"value"}'), "json")
