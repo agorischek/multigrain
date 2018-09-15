@@ -1,3 +1,5 @@
+<img alt="Multigrain logo" src="img/logo.png" width="200px" height = "200px" />
+
 # Multigrain
 Single-step conversion between JSON, YAML, CSON, PLIST, and TOML
 
