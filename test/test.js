@@ -56,16 +56,23 @@ describe("Multigrain", function(){
         assert.deepEqual(multigrain.parse('{"key":"value"}', "json"), {key:'value'})
     })
     it("should convert unspecified CSON to JSON", function(){
-    assert.deepEqual(multigrain.parse('key:"value"', "cson"), {key:'value'})
+        assert.deepEqual(multigrain.parse('key:"value"', "cson"), {key:'value'})
     })
     it("should convert unspecified YAML to JSON", function(){
-    assert.deepEqual(multigrain.parse('key: value', "yaml"), {key:'value'})
+        assert.deepEqual(multigrain.parse('key: value', "yaml"), {key:'value'})
     })
     it("should convert unspecified PLIST to JSON", function(){
-    assert.deepEqual(multigrain.parse('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"><plist version="1.0"><dict><key>key</key><string>value</string></dict></plist>', "plist"), {key:'value'})
+        assert.deepEqual(multigrain.parse('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"><plist version="1.0"><dict><key>key</key><string>value</string></dict></plist>', "plist"), {key:'value'})
     })
     it("should convert unspecified TOML to JSON", function(){
-    assert.deepEqual(multigrain.parse('key = "value"', "toml"), {key:'value'})
+        assert.deepEqual(multigrain.parse('key = "value"', "toml"), {key:'value'})
+    })
+
+    it("should respect YAML parser options", function(){
+        assert.notEqual(multigrain.json(' key: &anchor\n   a: b\n key2:\n   <<: *anchor', "yaml", {merge: false}), '{"key":{"a":"b"},"key2":{"a":"b"}}')
+    })
+    it("should respect CSON builder options", function(){
+        assert.equal(multigrain.cson('{"a":{"b":"c"}}', "json", null, {indent:"\t\t"}), 'a:\n\t\tb: "c"')
     })
 
 })
