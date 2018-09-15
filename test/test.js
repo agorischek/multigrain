@@ -52,16 +52,16 @@ describe("Multigrain", function(){
         assert.equal(multigrain.json('key = "value"'), '{"key":"value"}')
     })
 
-    it("should parse CSON into a JavaScript opbject", function(){
+    it("should parse CSON into a JavaScript object", function(){
         assert.deepEqual(multigrain.parse('{"key":"value"}', "json"), {key:'value'})
     })
-    it("should parse YAML into a JavaScript opbject", function(){
+    it("should parse YAML into a JavaScript object", function(){
         assert.deepEqual(multigrain.parse('{"key":"value"}', "yaml"), {key:'value'})
     })
-    it("should parse PLIST into a JavaScript opbject", function(){
+    it("should parse PLIST into a JavaScript object", function(){
         assert.deepEqual(multigrain.parse('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"><plist version="1.0"><dict><key>key</key><string>value</string></dict></plist>', "plist"), {key:'value'})
     })
-    it("should parse TOML into a JavaScript opbject", function(){
+    it("should parse TOML into a JavaScript object", function(){
         assert.deepEqual(multigrain.parse('key = "value"', "toml"), {key:'value'})
     })
 
@@ -85,7 +85,7 @@ describe("Multigrain", function(){
         assert.equal(multigrain.cson('{"a":{"b":"c"}}', "json", null, {indent:"\t\t"}), 'a:\n\t\tb: "c"')
     })
 
-    it("should pass through a JSON object when parsing", function(){
+    it("should pass through a JavaScript object when parsing", function(){
         assert.deepEqual(multigrain.parse({a: "b"}), {a:"b"})
     })
 
