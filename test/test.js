@@ -7,20 +7,20 @@ var determineInterpretation = require('../lib/determine-interpretation.js');
 
 describe("Multigrain", function(){
     it("should convert explicit JSON to JSON", function(){
-        assert.equal(multigrain.json('{"key":"value"}', "json"), '{"key":"value"}');
+        assert.equal(multigrain.json('{"key":"value"}', "json"), '{"key": "value"}');
     });
 
     it("should convert explicit CSON to JSON", function(){
-        assert.equal(multigrain.json('key:"value"', "cson"), '{"key":"value"}');
+        assert.equal(multigrain.json('key:"value"', "cson"), '{"key": "value"}');
     });
     it("should convert explicit YAML to JSON", function(){
-        assert.equal(multigrain.json('key: value', "yaml"), '{"key":"value"}');
+        assert.equal(multigrain.json('key: value', "yaml"), '{"key": "value"}');
     });
     it("should convert explicit PLIST to JSON", function(){
-        assert.equal(multigrain.json('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"><plist version="1.0"><dict><key>key</key><string>value</string></dict></plist>', "plist"), '{"key":"value"}');
+        assert.equal(multigrain.json('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"><plist version="1.0"><dict><key>key</key><string>value</string></dict></plist>', "plist"), '{"key": "value"}');
     });
     it("should convert explicit TOML to JSON", function(){
-        assert.equal(multigrain.json('key = "value"', "toml"), '{"key":"value"}');
+        assert.equal(multigrain.json('key = "value"', "toml"), '{"key": "value"}');
     });
 
     it("should convert explicit JSON to CSON", function(){
@@ -37,19 +37,19 @@ describe("Multigrain", function(){
     });
 
     it("should convert unspecified JSON to JSON", function(){
-        assert.equal(multigrain.json('{"key":"value"}'), '{"key":"value"}');
+        assert.equal(multigrain.json('{"key":"value"}'), '{"key": "value"}');
     });
     it("should convert unspecified CSON to JSON", function(){
-        assert.equal(multigrain.json('key:"value"'), '{"key":"value"}');
+        assert.equal(multigrain.json('key:"value"'), '{"key": "value"}');
     });
     it("should convert unspecified YAML to JSON", function(){
-        assert.equal(multigrain.json('key: value'), '{"key":"value"}');
+        assert.equal(multigrain.json('key: value'), '{"key": "value"}');
     });
     it("should convert unspecified PLIST to JSON", function(){
-        assert.equal(multigrain.json('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"><plist version="1.0"><dict><key>key</key><string>value</string></dict></plist>'), '{"key":"value"}');
+        assert.equal(multigrain.json('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"><plist version="1.0"><dict><key>key</key><string>value</string></dict></plist>'), '{"key": "value"}');
     });
     it("should convert unspecified TOML to JSON", function(){
-        assert.equal(multigrain.json('key = "value"'), '{"key":"value"}');
+        assert.equal(multigrain.json('key = "value"'), '{"key": "value"}');
     });
 
     it("should parse CSON into a JavaScript object", function(){
