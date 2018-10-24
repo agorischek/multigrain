@@ -28,6 +28,7 @@
   "dependencies": {
     "@iarna/toml": "^2.2.0",
     "cson": "^5.1.0",
+    "json-stringify-pretty-compact": "^1.2.0",
     "plist": "^3.0.1",
     "yaml": "^1.0.0-rc.8"
   },
