@@ -45,6 +45,18 @@ Supported build options can optionally be passed similarly:
 multigrain.cson(input, "json", parseOpts, buildOpts)
 ```
 
+## Options
+Default parse and build options can be specified, which will be used for all following `parse` and `build` calls that don't specify explicit options.
+
+```js
+multigrain.options.yaml.parse({merge: false});
+multigrain.options.cson.build({indent:"\t\t\t"});
+```
+Options can also be reset to Multigrain default.
+```js
+multigrain.options.reset();
+```
+
 ## Processors
 
 Multigrain uses the following processors for parsing and building:
@@ -53,5 +65,6 @@ Multigrain uses the following processors for parsing and building:
 - CSON: [cson](https://www.npmjs.com/package/cson)
 - PLIST: [plist](https://www.npmjs.com/package/plist)
 - TOML: [@iarna/toml](https://www.npmjs.com/package/@iarna/toml)
+- JSON: [JSON.parse](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse) for parsing and [json-stringify-pretty-compact](https://www.npmjs.com/package/json-stringify-pretty-compact) for building (with default `indent` of `\t` and `maxLength` of `0`)
 
 See their respective documentation for parse and build options.
