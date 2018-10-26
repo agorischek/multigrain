@@ -3,6 +3,11 @@
 # Multigrain
 Single-step conversion between JSON, YAML, CSON, PLIST, & TOML.
 
+[![Build Status](https://img.shields.io/travis/agorischek/multigrain.svg?style=flat-square)](https://travis-ci.org/agorischek/multigrain)
+[![Depfu](https://img.shields.io/depfu/agorischek/multigrain.svg?style=flat-square)](https://depfu.com/repos/agorischek/multigrain)
+[![Version](https://img.shields.io/npm/v/multigrain.svg?style=flat-square)](https://www.npmjs.com/package/multigrain)
+[![License](https://img.shields.io/github/license/agorischek/multigrain.svg?style=flat-square)](https://github.com/agorischek/multigrain/blob/master/LICENSE)
+
 ```sh
 npm install multigrain
 ```
