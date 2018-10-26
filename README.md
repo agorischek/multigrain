@@ -44,7 +44,7 @@ Options supported by the underlying parser can be passed as an optional argument
 multigrain.yaml(input, "plist", parseOpts);
 ```
 
-Supported build options can optionally be passed similarly:
+Supported build options can optionally be passed similarly.
 
 ```js
 multigrain.cson(input, "json", parseOpts, buildOpts);
@@ -55,9 +55,9 @@ Default parse and build options can be specified, which will be used for all fol
 
 ```js
 multigrain.options.yaml.parse({merge: false});
-multigrain.options.cson.build({indent:"\t\t\t"});
+multigrain.options.cson.build({indent:"\t\t"});
 ```
-Options can also be reset to Multigrain default.
+Options can also be reset to Multigrain defaults.
 ```js
 multigrain.options.reset();
 ```
