@@ -19,35 +19,35 @@ Multigrain provides simple conversion between common serial formats, avoiding th
 The most basic use is to call the desired output format function and pass an input string or JavaScript object. Multigrain will return a string in the requested format. If a string is passed as input, Multigrain will use some simple heuristics to infer the input format.
 
 ```js
-multigrain.json(input)
-multigrain.yaml(input)
-multigrain.cson(input)
-multigrain.plist(input)
-multigrain.toml(input)
+multigrain.json(input);
+multigrain.yaml(input);
+multigrain.cson(input);
+multigrain.plist(input);
+multigrain.toml(input);
 ```
 
 Alternatively, `parse` will return a native JavaScript object.
 
 ```js
-multigrain.parse(input)
+multigrain.parse(input);
 ```
 
 You can pass the input format explicitly (`json`, `yaml`, `cson`, `plist`, or `toml`) as the second argument. Unless your input format can vary unpredictably, this is recommended.
 
 ```js
-multigrain.json(input, "toml")
+multigrain.json(input, "toml");
 ```
 
 Options supported by the underlying parser can be passed as an optional argument.
 
 ```js
-multigrain.yaml(input, "plist", parseOpts)
+multigrain.yaml(input, "plist", parseOpts);
 ```
 
 Supported build options can optionally be passed similarly:
 
 ```js
-multigrain.cson(input, "json", parseOpts, buildOpts)
+multigrain.cson(input, "json", parseOpts, buildOpts);
 ```
 
 ## Options
