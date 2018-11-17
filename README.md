@@ -12,7 +12,7 @@ Single-step conversion between JSON, YAML, CSON, PLIST, & TOML.
 npm install multigrain
 ```
 
-Multigrain provides simple conversion between common serial formats, avoiding the need to manually chain processors with differing syntaxes when a variety of formats and conversions are necessary. This can be particularly useful when multiple consumers require the same information in different serialized formats, such as [language grammars]().
+Multigrain provides simple conversion between common serial formats, avoiding the need to manually chain processors with differing syntaxes when a variety of formats and conversions are necessary. This can be particularly useful when multiple consumers require the same information in different serialized formats, such as [language grammars](http://docs.sublimetext.info/en/latest/reference/syntaxdefs.html).
 
 ## Use
 
@@ -44,7 +44,7 @@ Options supported by the underlying parser can be passed as an optional argument
 multigrain.yaml(input, "plist", parseOpts);
 ```
 
-Supported build options can optionally be passed similarly:
+Supported build options can optionally be passed similarly.
 
 ```js
 multigrain.cson(input, "json", parseOpts, buildOpts);
@@ -55,9 +55,9 @@ Default parse and build options can be specified, which will be used for all fol
 
 ```js
 multigrain.options.yaml.parse({merge: false});
-multigrain.options.cson.build({indent:"\t\t\t"});
+multigrain.options.cson.build({indent:"  "});
 ```
-Options can also be reset to Multigrain default.
+Options can also be reset to Multigrain defaults.
 ```js
 multigrain.options.reset();
 ```
