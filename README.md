@@ -55,7 +55,7 @@ Default parse and build options can be specified, which will be used for all fol
 
 ```js
 multigrain.options.yaml.parse({merge: false});
-multigrain.options.cson.build({indent:"\t\t"});
+multigrain.options.cson.build({indent:"  "});
 ```
 Options can also be reset to Multigrain defaults.
 ```js
