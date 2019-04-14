@@ -1,9 +1,10 @@
 <img alt="Multigrain logo" src="img/logo.png" width="195px" height = "195px" />
 
 # Multigrain
+
 Single-step conversion between JSON, YAML, CSON, PLIST, & TOML.
 
-[![Build Status](https://img.shields.io/travis/agorischek/multigrain.svg?style=flat-square)](https://travis-ci.org/agorischek/multigrain)
+[![Build Status](https://img.shields.io/travis/com/agorischek/multigrain.svg?style=flat-square)](https://travis-ci.com/agorischek/multigrain)
 [![Depfu](https://img.shields.io/depfu/agorischek/multigrain.svg?style=flat-square)](https://depfu.com/repos/agorischek/multigrain)
 [![Version](https://img.shields.io/npm/v/multigrain.svg?style=flat-square)](https://www.npmjs.com/package/multigrain)
 [![License](https://img.shields.io/github/license/agorischek/multigrain.svg?style=flat-square)](https://github.com/agorischek/multigrain/blob/master/LICENSE)
@@ -51,13 +52,16 @@ multigrain.cson(input, "json", parseOpts, buildOpts);
 ```
 
 ## Options
+
 Default parse and build options can be specified, which will be used for all following `parse` and `build` calls that don't specify explicit options.
 
 ```js
-multigrain.options.yaml.parse({merge: false});
-multigrain.options.cson.build({indent:"  "});
+multigrain.options.yaml.parse({ merge: false });
+multigrain.options.cson.build({ indent: "  " });
 ```
+
 Options can also be reset to Multigrain defaults.
+
 ```js
 multigrain.options.reset();
 ```
