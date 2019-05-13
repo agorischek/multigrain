@@ -31,7 +31,7 @@
     "cson": "^5.1.0",
     "json-stringify-pretty-compact": "^2.0.0",
     "plist": "^3.0.1",
-    "yaml": "^1.4.0"
+    "yaml": "^1.5.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
