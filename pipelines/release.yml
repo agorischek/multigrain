@@ -47,3 +47,9 @@ steps:
     workingDir: '$(System.ArtifactsDirectory)/unpacked/package'
     customCommand: 'test'
   displayName: 'Run tests'
+
+- task: Npm@1
+  inputs:
+    command: 'publish'
+    workingDir: '$(System.ArtifactsDirectory)/unpacked/package'
+    publishEndpoint: 'npm'
