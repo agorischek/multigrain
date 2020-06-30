@@ -26,12 +26,15 @@ steps:
     command: 'custom'
     customCommand: 'prune'
 
+
+- script: dir
+
+- script: cd $(Build.ArtifactStagingDirectory)
+
 - task: Npm@1
   inputs:
     command: 'custom'
-    customCommand: 'pack'
-
-- script: dir
+    customCommand: 'pack ../'
 
 - task: ArchiveFiles@2
   inputs:
