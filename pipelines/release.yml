@@ -41,19 +41,6 @@ steps:
 
   - task: Npm@1
     inputs:
-      command: "install"
-      workingDir: "$(System.ArtifactsDirectory)/unpacked/package"
-    displayName: "Install dependencies"
-
-  - task: Npm@1
-    inputs:
-      command: "custom"
-      workingDir: "$(System.ArtifactsDirectory)/unpacked/package"
-      customCommand: "test"
-    displayName: "Run tests"
-
-  - task: Npm@1
-    inputs:
       command: "publish"
       workingDir: "$(System.ArtifactsDirectory)/unpacked/package"
       publishEndpoint: "npm"
