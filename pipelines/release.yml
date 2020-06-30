@@ -21,4 +21,12 @@ steps:
     downloadPath: '$(System.ArtifactsDirectory)'
   displayName: 'Download build output'
 
-- script: cd $(System.ArtifactsDirectory)/output && dir
+- task: ExtractFiles@1
+  inputs:
+    archiveFilePatterns: '$(System.ArtifactsDirectory)/output/*.zip'
+    destinationFolder: '$(System.ArtifactsDirectory)/outgoing'
+    cleanDestinationFolder: true
+  displayName: 'Extract build output'
+
+- script: cd $(System.ArtifactsDirectory)/outgoing && dir
+  displayName: 'Check folder contents'
