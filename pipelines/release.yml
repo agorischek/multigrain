@@ -32,16 +32,8 @@ steps:
     cleanDestinationFolder: true
   displayName: 'Unpack build output'
 
-- script: cd $(System.ArtifactsDirectory)/unpacked && dir
+- script: cd $(System.ArtifactsDirectory)/unpacked/package && dir
   displayName: 'Check folder contents'
 
-- task: Npm@1
-  inputs:
-    command: 'ci'
-  displayName: 'Install dependencies'
-
-- task: Npm@1
-  inputs:
-    command: 'custom'
-    customCommand: 'test'
+- script: cd $(System.ArtifactsDirectory)/unpacked/package && npm i && npm test
   displayName: 'Run tests'
