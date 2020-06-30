@@ -1,1 +1,3 @@
 /pipelines/
+/test/
+wallaby.js
