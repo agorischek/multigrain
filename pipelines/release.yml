@@ -37,10 +37,13 @@ steps:
     displayName: "Unpack build output"
 
   - script: cd $(System.ArtifactsDirectory)/unpacked/package && dir
-    displayName: "Check folder contents"
+    displayName: "Print package contents"
+  
+  - script: cd $(System.ArtifactsDirectory)/unpacked/package && cat package.json
+    displayName: "Print package info"
 
-  - task: Npm@1
-    inputs:
-      command: "publish"
-      workingDir: "$(System.ArtifactsDirectory)/unpacked/package"
-      publishEndpoint: "npm"
+  # - task: Npm@1
+  #   inputs:
+  #     command: "publish"
+  #     workingDir: "$(System.ArtifactsDirectory)/unpacked/package"
+  #     publishEndpoint: "npm"
