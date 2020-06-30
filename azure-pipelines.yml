@@ -26,6 +26,11 @@ steps:
     command: 'custom'
     customCommand: 'prune'
 
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    customCommand: 'pack'
+
 - script: dir
 
 - task: ArchiveFiles@2
