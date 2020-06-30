@@ -1,3 +1,8 @@
+variables:
+- name: artifactPipelineId
+  value: 5
+  readonly: true
+
 trigger: none
 
 pr: none
@@ -16,13 +21,13 @@ steps:
 
   - task: DownloadBuildArtifacts@0
     inputs:
-      buildType: "specific"
-      project: "e4d45739-24d8-450c-b29b-8eef684c3f17"
-      pipeline: "3"
-      buildVersionToDownload: "latestFromBranch"
-      branchName: "refs/heads/master"
-      downloadType: "specific"
-      downloadPath: "$(System.ArtifactsDirectory)"
+      buildType: 'specific'
+      project: 'e4d45739-24d8-450c-b29b-8eef684c3f17'
+      pipeline: '${{variables.artifactPipelineId}}'
+      buildVersionToDownload: 'latestFromBranch'
+      branchName: 'refs/heads/master'
+      downloadType: 'specific'
+      downloadPath: '$(System.ArtifactsDirectory)'
     displayName: "Download build output"
 
   - task: ExtractFiles@1
