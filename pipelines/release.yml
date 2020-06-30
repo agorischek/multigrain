@@ -52,8 +52,8 @@ steps:
       cat package.json
     displayName: "Print package info"
 
-  # - task: Npm@1
-  #   inputs:
-  #     command: "publish"
-  #     workingDir: "$(System.ArtifactsDirectory)/unpacked/package"
-  #     publishEndpoint: "npm"
+  - task: Npm@1
+    inputs:
+      command: "publish"
+      workingDir: "$(System.ArtifactsDirectory)/unpacked/package"
+      publishEndpoint: "npm"
