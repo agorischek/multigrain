@@ -27,19 +27,16 @@ steps:
     customCommand: 'prune'
 
 
-- script: cd .. && dir && cd a && dir && cd ../b && dir && cd ../s && dir
+- script: npm pack ../a
 
-- script: cd $(Build.ArtifactStagingDirectory)
+- script: npm pack ../b
 
-- task: Npm@1
-  inputs:
-    command: 'custom'
-    customCommand: 'pack ../'
+- script: npm pack ../s
 
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: ''
-    includeRootFolder: true
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-    replaceExistingArchive: true
+# - task: ArchiveFiles@2
+#   inputs:
+#     rootFolderOrFile: ''
+#     includeRootFolder: true
+#     archiveType: 'zip'
+#     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+#     replaceExistingArchive: true
