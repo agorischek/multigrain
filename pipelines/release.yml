@@ -1,0 +1,23 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
+
+- task: DownloadBuildArtifacts@0
+  inputs:
+    buildType: 'specific'
+    project: 'e4d45739-24d8-450c-b29b-8eef684c3f17'
+    pipeline: '3'
+    buildVersionToDownload: 'latestFromBranch'
+    branchName: 'refs/heads/master'
+    downloadType: 'specific'
+    downloadPath: '$(System.ArtifactsDirectory)'
+
+- script: cd $(System.ArtifactsDirectory) && dir
