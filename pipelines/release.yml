@@ -21,9 +21,27 @@ steps:
 - task: ExtractFiles@1
   inputs:
     archiveFilePatterns: '$(System.ArtifactsDirectory)/output/*.zip'
-    destinationFolder: '$(System.ArtifactsDirectory)/outgoing'
+    destinationFolder: '$(System.ArtifactsDirectory)/extracted'
     cleanDestinationFolder: true
   displayName: 'Extract build output'
 
-- script: cd $(System.ArtifactsDirectory)/outgoing && dir
+- task: ExtractFiles@1
+  inputs:
+    archiveFilePatterns: '$(System.ArtifactsDirectory)/extracted/*.tgz'
+    destinationFolder: '$(System.ArtifactsDirectory)/unpacked'
+    cleanDestinationFolder: true
+  displayName: 'Unpack build output'
+
+- script: cd $(System.ArtifactsDirectory)/unpacked && dir
   displayName: 'Check folder contents'
+
+- task: Npm@1
+  inputs:
+    command: 'ci'
+  displayName: 'Install dependencies'
+
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    customCommand: 'test'
+  displayName: 'Run tests'
