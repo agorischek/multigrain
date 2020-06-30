@@ -1,57 +1,57 @@
 pr: none
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: "ubuntu-latest"
 
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
+  - task: NodeTool@0
+    inputs:
+      versionSpec: "10.x"
+    displayName: "Install Node.js"
 
-- task: DownloadBuildArtifacts@0
-  inputs:
-    buildType: 'specific'
-    project: 'e4d45739-24d8-450c-b29b-8eef684c3f17'
-    pipeline: '3'
-    buildVersionToDownload: 'latestFromBranch'
-    branchName: 'refs/heads/master'
-    downloadType: 'specific'
-    downloadPath: '$(System.ArtifactsDirectory)'
-  displayName: 'Download build output'
+  - task: DownloadBuildArtifacts@0
+    inputs:
+      buildType: "specific"
+      project: "e4d45739-24d8-450c-b29b-8eef684c3f17"
+      pipeline: "3"
+      buildVersionToDownload: "latestFromBranch"
+      branchName: "refs/heads/master"
+      downloadType: "specific"
+      downloadPath: "$(System.ArtifactsDirectory)"
+    displayName: "Download build output"
 
-- task: ExtractFiles@1
-  inputs:
-    archiveFilePatterns: '$(System.ArtifactsDirectory)/output/*.zip'
-    destinationFolder: '$(System.ArtifactsDirectory)/extracted'
-    cleanDestinationFolder: true
-  displayName: 'Extract build output'
+  - task: ExtractFiles@1
+    inputs:
+      archiveFilePatterns: "$(System.ArtifactsDirectory)/output/*.zip"
+      destinationFolder: "$(System.ArtifactsDirectory)/extracted"
+      cleanDestinationFolder: true
+    displayName: "Extract build output"
 
-- task: ExtractFiles@1
-  inputs:
-    archiveFilePatterns: '$(System.ArtifactsDirectory)/extracted/*.tgz'
-    destinationFolder: '$(System.ArtifactsDirectory)/unpacked'
-    cleanDestinationFolder: true
-  displayName: 'Unpack build output'
+  - task: ExtractFiles@1
+    inputs:
+      archiveFilePatterns: "$(System.ArtifactsDirectory)/extracted/*.tgz"
+      destinationFolder: "$(System.ArtifactsDirectory)/unpacked"
+      cleanDestinationFolder: true
+    displayName: "Unpack build output"
 
-- script: cd $(System.ArtifactsDirectory)/unpacked/package && dir
-  displayName: 'Check folder contents'
+  - script: cd $(System.ArtifactsDirectory)/unpacked/package && dir
+    displayName: "Check folder contents"
 
-- task: Npm@1
-  inputs:
-    command: 'install'
-    workingDir: '$(System.ArtifactsDirectory)/unpacked/package'
-  displayName: 'Install dependencies'
+  - task: Npm@1
+    inputs:
+      command: "install"
+      workingDir: "$(System.ArtifactsDirectory)/unpacked/package"
+    displayName: "Install dependencies"
 
-- task: Npm@1
-  inputs:
-    command: 'custom'
-    workingDir: '$(System.ArtifactsDirectory)/unpacked/package'
-    customCommand: 'test'
-  displayName: 'Run tests'
+  - task: Npm@1
+    inputs:
+      command: "custom"
+      workingDir: "$(System.ArtifactsDirectory)/unpacked/package"
+      customCommand: "test"
+    displayName: "Run tests"
 
-- task: Npm@1
-  inputs:
-    command: 'publish'
-    workingDir: '$(System.ArtifactsDirectory)/unpacked/package'
-    publishEndpoint: 'npm'
+  - task: Npm@1
+    inputs:
+      command: "publish"
+      workingDir: "$(System.ArtifactsDirectory)/unpacked/package"
+      publishEndpoint: "npm"
