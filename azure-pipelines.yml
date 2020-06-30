@@ -10,29 +10,28 @@ steps:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
 
-- task: Npm@1
-  inputs:
-    command: 'install'
-  displayName: 'Install dependencies'
+# - task: Npm@1
+#   inputs:
+#     command: 'install'
+#   displayName: 'Install dependencies'
 
-- task: Npm@1
-  inputs:
-    command: 'custom'
-    customCommand: 'test'
-  displayName: 'Run tests'
+# - task: Npm@1
+#   inputs:
+#     command: 'custom'
+#     customCommand: 'test'
+#   displayName: 'Run tests'
 
 - script: cd $(Build.BinariesDirectory) && npm pack $(Build.Repository.LocalPath)
   displayName: 'Create package'
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
+    rootFolderOrFile: '$(Build.BinariesDirectory)'
     includeRootFolder: true
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
     replaceExistingArchive: true
   displayName: 'Archive package'
-
 
 - task: PublishBuildArtifacts@1
   inputs:
