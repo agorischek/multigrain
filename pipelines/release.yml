@@ -44,10 +44,12 @@ steps:
       cleanDestinationFolder: true
     displayName: "Unpack build output"
 
-  - script: cd $(System.ArtifactsDirectory)/unpacked/package && dir
-    displayName: "Print package contents"
-  
-  - script: cd $(System.ArtifactsDirectory)/unpacked/package && cat package.json
+  - script: |
+      cd $(System.ArtifactsDirectory)/unpacked/package
+      echo "Package contents:"
+      dir
+      echo "Packge details:"
+      cat package.json
     displayName: "Print package info"
 
   # - task: Npm@1
