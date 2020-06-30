@@ -27,6 +27,8 @@ steps:
     customCommand: 'prune'
 
 
+- script: cd ..
+
 - script: dir
 
 - script: cd $(Build.ArtifactStagingDirectory)
