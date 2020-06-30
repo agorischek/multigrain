@@ -19,20 +19,10 @@ steps:
   inputs:
     command: 'custom'
     customCommand: 'test'
-  displayName: 'Test'
+  displayName: 'Run tests'
 
-- task: Npm@1
-  inputs:
-    command: 'custom'
-    customCommand: 'prune'
-
-- script: npm pack ../s
-
-- script: echo $(Build.ArtifactStagingDirectory)
-
-- script: cd $(Build.ArtifactStagingDirectory) && npm pack ../s
-
-- script: cd $(Build.ArtifactStagingDirectory) && dir
+- script: cd $(Build.BinariesDirectory) && npm pack $(Build.Repository.LocalPath)
+  displayName: 'Create package'
 
 - task: ArchiveFiles@2
   inputs:
@@ -41,9 +31,12 @@ steps:
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
     replaceExistingArchive: true
+  displayName: 'Archive package'
+
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
+  displayName: 'Upload package'
