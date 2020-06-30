@@ -26,12 +26,12 @@
   },
   "homepage": "https://github.com/agorischek/multigrain#readme",
   "dependencies": {
-    "@iarna/toml": "^2.2.3",
+    "@iarna/toml": "^2.2.5",
     "clone": "^2.1.2",
     "cson": "^5.1.0",
     "json-stringify-pretty-compact": "^2.0.0",
     "plist": "^3.0.1",
-    "yaml": "^1.6.0"
+    "yaml": "^1.10.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
