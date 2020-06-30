@@ -28,6 +28,11 @@ steps:
 
 - script: npm pack ../s
 
+- script: echo $(Build.ArtifactStagingDirectory)
+
+- script: cd $(Build.ArtifactStagingDirectory) && npm pack ../s
+
+
 # - task: ArchiveFiles@2
 #   inputs:
 #     rootFolderOrFile: ''
