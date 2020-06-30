@@ -1,7 +1,7 @@
 variables:
-- name: artifactPipelineId
-  value: 5
-  readonly: true
+  - name: artifactPipelineId
+    value: 5
+    readonly: true
 
 trigger: none
 
@@ -11,23 +11,22 @@ pool:
   vmImage: "ubuntu-latest"
 
 steps:
-
   - checkout: none
 
   - task: NodeTool@0
     inputs:
-      versionSpec: "10.x"
-    displayName: "Install Node.js"
+      versionSpec: "12.x"
+    displayName: "Install Node"
 
   - task: DownloadBuildArtifacts@0
     inputs:
-      buildType: 'specific'
-      project: 'e4d45739-24d8-450c-b29b-8eef684c3f17'
-      pipeline: '${{variables.artifactPipelineId}}'
-      buildVersionToDownload: 'latestFromBranch'
-      branchName: 'refs/heads/master'
-      downloadType: 'specific'
-      downloadPath: '$(System.ArtifactsDirectory)'
+      buildType: "specific"
+      project: "e4d45739-24d8-450c-b29b-8eef684c3f17"
+      pipeline: "${{variables.artifactPipelineId}}"
+      buildVersionToDownload: "latestFromBranch"
+      branchName: "refs/heads/master"
+      downloadType: "specific"
+      downloadPath: "$(System.ArtifactsDirectory)"
     displayName: "Download build output"
 
   - task: ExtractFiles@1
@@ -56,4 +55,4 @@ steps:
     inputs:
       command: "publish"
       workingDir: "$(System.ArtifactsDirectory)/unpacked/package"
-      publishEndpoint: "npm"
+      publishEndpoint: "Publish to npm"
