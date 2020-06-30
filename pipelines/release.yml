@@ -19,5 +19,6 @@ steps:
     branchName: 'refs/heads/master'
     downloadType: 'specific'
     downloadPath: '$(System.ArtifactsDirectory)'
+  displayName: 'Download build output'
 
-- script: cd $(System.ArtifactsDirectory) && dir
+- script: cd $(System.ArtifactsDirectory)/output && dir
