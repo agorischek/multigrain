@@ -1,10 +1,11 @@
 {
   "name": "multigrain",
-  "version": "1.0.8",
+  "version": "2.0.0",
   "description": "Single-step conversion between JSON, YAML, CSON, PLIST, and TOML.",
   "main": "lib/index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "update": "ncu -u && npm i && npm audit fix --force && npm i"
   },
   "repository": {
     "type": "git",
@@ -26,15 +27,16 @@
   },
   "homepage": "https://github.com/agorischek/multigrain#readme",
   "dependencies": {
-    "@iarna/toml": "^2.2.3",
+    "@iarna/toml": "^2.2.5",
     "clone": "^2.1.2",
-    "cson": "^5.1.0",
+    "cson": "^7.12.0",
     "json-stringify-pretty-compact": "^2.0.0",
     "plist": "^3.0.1",
-    "yaml": "^1.5.1"
+    "yaml": "^1.10.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^5.2.0"
+    "mocha": "^8.0.1",
+    "npm-check-updates": "^7.0.1"
   }
 }
