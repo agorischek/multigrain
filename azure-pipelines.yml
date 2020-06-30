@@ -26,11 +26,6 @@ steps:
     command: 'custom'
     customCommand: 'prune'
 
-
-- script: npm pack ../a
-
-- script: npm pack ../b
-
 - script: npm pack ../s
 
 # - task: ArchiveFiles@2
