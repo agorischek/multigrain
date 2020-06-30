@@ -9,7 +9,7 @@ describe("Multigrain", function () {
   it("should convert explicit JSON to JSON", function () {
     assert.equal(
       multigrain.json('{"key":"value"}', "json"),
-      '{\n\t"key": "value"\n}'
+      '{\n\t"key": "break test"\n}'
     );
   });
 
