@@ -10,16 +10,16 @@ steps:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
 
-# - task: Npm@1
-#   inputs:
-#     command: 'install'
-#   displayName: 'Install dependencies'
+- task: Npm@1
+  inputs:
+    command: 'install'
+  displayName: 'Install dependencies'
 
-# - task: Npm@1
-#   inputs:
-#     command: 'custom'
-#     customCommand: 'test'
-#   displayName: 'Run tests'
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    customCommand: 'test'
+  displayName: 'Run tests'
 
 - script: cd $(Build.BinariesDirectory) && npm pack $(Build.Repository.LocalPath)
   displayName: 'Create package'
@@ -36,6 +36,6 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-    ArtifactName: 'drop'
+    ArtifactName: 'output'
     publishLocation: 'Container'
   displayName: 'Upload package'
