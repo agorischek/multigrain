@@ -4,21 +4,21 @@ pr:
   - master
 
 pool:
-  vmImage: "ubuntu-latest"
+  vmImage: ubuntu-latest
 
 steps:
   - task: NodeTool@0
     inputs:
-      versionSpec: "12.x"
-    displayName: "Install Node"
+      versionSpec: 12.x
+    displayName: Install Node
 
   - task: Npm@1
     inputs:
-      command: "ci"
-    displayName: "Install dependencies"
+      command: ci
+    displayName: Install dependencies
 
   - task: Npm@1
     inputs:
-      command: "custom"
-      customCommand: "test"
-    displayName: "Run tests"
+      command: custom
+      customCommand: test
+    displayName: Run tests
