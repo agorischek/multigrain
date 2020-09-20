@@ -1,6 +1,6 @@
 {
   "name": "multigrain",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Single-step conversion between JSON, YAML, CSON, PLIST, and TOML.",
   "main": "lib/index.js",
   "scripts": {
