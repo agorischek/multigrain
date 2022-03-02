@@ -31,7 +31,7 @@
     "clone": "^2.1.2",
     "cson": "^7.20.0",
     "json-stringify-pretty-compact": "^2.0.0",
-    "plist": "^3.0.1",
+    "plist": "^3.0.4",
     "yaml": "^1.10.0"
   },
   "devDependencies": {
