@@ -1,6 +1,4 @@
-var mocha = require("mocha");
-var chai = require("chai");
-var assert = chai.assert;
+var assert = require("assert");
 
 var multigrain = require("../lib/index.js");
 var determineInterpretation = require("../lib/determine-interpretation.js");

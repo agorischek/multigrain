@@ -4,7 +4,7 @@
 
 Single-step conversion between JSON, YAML, CSON, PLIST, & TOML.
 
-[![Build Status](https://dev.azure.com/agorischek/packages/_apis/build/status/Multigrain/Multigrain%20CI?branchName=master)](https://dev.azure.com/agorischek/packages/_build?definitionScope=%5CMultigrain)
+[![CI](https://github.com/agorischek/multigrain/actions/workflows/ci.yml/badge.svg)](https://github.com/agorischek/multigrain/actions/workflows/ci.yml)
 [![Dependencies](https://img.shields.io/depfu/agorischek/multigrain.svg)](https://depfu.com/repos/agorischek/multigrain)
 [![Version](https://img.shields.io/npm/v/multigrain.svg)](https://www.npmjs.com/package/multigrain)
 [![License](https://img.shields.io/github/license/agorischek/multigrain.svg)](https://github.com/agorischek/multigrain/blob/master/LICENSE)
@@ -77,3 +77,7 @@ Multigrain uses the following processors for parsing and building:
 - JSON: [JSON.parse](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse) for parsing and [json-stringify-pretty-compact](https://www.npmjs.com/package/json-stringify-pretty-compact) for building (with default `indent` of `\t` and `maxLength` of `0`)
 
 See their respective documentation for parse and build options.
+
+## Publishing
+
+Releases are published by the [Publish Package](https://github.com/agorischek/multigrain/actions/workflows/publish.yml) GitHub Actions workflow using npm Trusted Publishing.
