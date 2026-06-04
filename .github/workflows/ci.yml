@@ -40,4 +40,4 @@ jobs:
         run: npm test
 
       - name: Verify package contents
-        run: npm publish --dry-run
+        run: npm pack --dry-run
