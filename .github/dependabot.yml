@@ -1,0 +1,31 @@
+version: 2
+
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: monthly
+      time: "09:00"
+      timezone: America/Los_Angeles
+    cooldown:
+      default-days: 3
+    groups:
+      routine-dependencies:
+        patterns:
+          - "*"
+    versioning-strategy: increase
+    open-pull-requests-limit: 2
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly
+      time: "09:00"
+      timezone: America/Los_Angeles
+    cooldown:
+      default-days: 3
+    groups:
+      routine-actions:
+        patterns:
+          - "*"
+    open-pull-requests-limit: 1

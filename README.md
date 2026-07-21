@@ -5,7 +5,6 @@
 Single-step conversion between JSON, YAML, CSON, PLIST, & TOML.
 
 [![CI](https://github.com/agorischek/multigrain/actions/workflows/ci.yml/badge.svg)](https://github.com/agorischek/multigrain/actions/workflows/ci.yml)
-[![Dependencies](https://img.shields.io/depfu/agorischek/multigrain.svg)](https://depfu.com/repos/agorischek/multigrain)
 [![Version](https://img.shields.io/npm/v/multigrain.svg)](https://www.npmjs.com/package/multigrain)
 [![License](https://img.shields.io/github/license/agorischek/multigrain.svg)](https://github.com/agorischek/multigrain/blob/master/LICENSE)
 
