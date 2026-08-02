@@ -4,10 +4,9 @@ on:
   push:
     tags:
       - 'v*'
-  workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   id-token: write
 
 concurrency:
@@ -18,13 +17,16 @@ jobs:
   publish:
     name: Publish to npm
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - name: Check out source
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
 
       - name: Set up Node
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
@@ -42,14 +44,39 @@ jobs:
       - name: Test
         run: npm test
 
-      - name: Check package version
+      - name: Test compatibility contract
+        run: npm run test:compatibility
+
+      - name: Check release state
+        id: release_state
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REF_NAME: ${{ github.ref_name }}
         run: |
           package_name="$(node -p "require('./package.json').name")"
           package_version="$(node -p "require('./package.json').version")"
-          if npm view "${package_name}@${package_version}" version >/dev/null 2>&1; then
-            echo "::error::${package_name}@${package_version} is already published."
+          if [ "$REF_NAME" != "v${package_version}" ]; then
+            echo "::error::Tag ${REF_NAME} does not match package version ${package_version}."
             exit 1
           fi
+          if npm view "${package_name}@${package_version}" version >/dev/null 2>&1; then
+            echo "package_published=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "package_published=false" >> "$GITHUB_OUTPUT"
+          fi
+          if gh release view "$REF_NAME" >/dev/null 2>&1; then
+            echo "release_exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "release_exists=false" >> "$GITHUB_OUTPUT"
+          fi
 
-      - name: Publish
-        run: npm publish
+      - name: Publish to npm
+        if: steps.release_state.outputs.package_published != 'true'
+        run: npm publish --provenance --access public
+
+      - name: Create GitHub release
+        if: steps.release_state.outputs.release_exists != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REF_NAME: ${{ github.ref_name }}
+        run: gh release create "$REF_NAME" --verify-tag --generate-notes --title "$REF_NAME"

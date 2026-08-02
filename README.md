@@ -12,6 +12,9 @@ Single-step conversion between JSON, YAML, CSON, PLIST, & TOML.
 npm install multigrain
 ```
 
+Multigrain 2.1 supports Node.js 18 and newer. It retains the synchronous
+CommonJS API for compatibility with existing applications.
+
 Multigrain provides simple conversion between common serial formats, avoiding the need to manually chain processors with differing syntaxes when a variety of formats and conversions are necessary. This can be particularly useful when multiple consumers require the same information in different serialized formats, such as [language grammars](http://docs.sublimetext.info/en/latest/reference/syntaxdefs.html).
 
 ## Use
