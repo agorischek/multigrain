@@ -4,7 +4,7 @@
 
 Single-step conversion between JSON, YAML, CSON, PLIST, & TOML.
 
-[![CI](https://github.com/agorischek/multigrain/actions/workflows/ci.yml/badge.svg)](https://github.com/agorischek/multigrain/actions/workflows/ci.yml)
+[![CI](https://github.com/agorischek/multigrain/actions/workflows/ci.yml/badge.svg?branch=v2)](https://github.com/agorischek/multigrain/actions/workflows/ci.yml?query=branch%3Av2)
 [![Version](https://img.shields.io/npm/v/multigrain.svg)](https://www.npmjs.com/package/multigrain)
 [![License](https://img.shields.io/github/license/agorischek/multigrain.svg)](https://github.com/agorischek/multigrain/blob/master/LICENSE)
 
@@ -14,6 +14,11 @@ npm install multigrain
 
 Multigrain 2.1 supports Node.js 18 and newer. It retains the synchronous
 CommonJS API for compatibility with existing applications.
+
+This branch is the maintained `2.x` compatibility line. It receives bug fixes
+and dependency maintenance; new features belong on v3. Scheduled Dependabot
+updates are limited to development dependencies and GitHub Actions so routine
+maintenance does not raise the published runtime dependency floors.
 
 Multigrain provides simple conversion between common serial formats, avoiding the need to manually chain processors with differing syntaxes when a variety of formats and conversions are necessary. This can be particularly useful when multiple consumers require the same information in different serialized formats, such as [language grammars](http://docs.sublimetext.info/en/latest/reference/syntaxdefs.html).
 
