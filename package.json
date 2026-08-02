@@ -1,15 +1,58 @@
 {
   "name": "multigrain",
-  "version": "2.1.0",
-  "description": "Single-step conversion between JSON, YAML, CSON, PLIST, and TOML.",
-  "main": "lib/index.js",
+  "version": "3.0.0",
+  "description": "Tree-shakeable conversion between JSON, YAML, CSON, PLIST, and TOML.",
+  "type": "module",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/index.js"
+    },
+    "./all": {
+      "types": "./src/all.d.ts",
+      "import": "./src/all.js"
+    },
+    "./json": {
+      "types": "./src/formats/json.d.ts",
+      "import": "./src/formats/json.js"
+    },
+    "./yaml": {
+      "types": "./src/formats/yaml.d.ts",
+      "import": "./src/formats/yaml.js"
+    },
+    "./cson": {
+      "types": "./src/formats/cson.d.ts",
+      "import": "./src/formats/cson.js"
+    },
+    "./plist": {
+      "types": "./src/formats/plist.d.ts",
+      "import": "./src/formats/plist.js"
+    },
+    "./toml": {
+      "types": "./src/formats/toml.d.ts",
+      "import": "./src/formats/toml.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src",
+    "CHANGELOG.md",
+    "img/logo.png"
+  ],
+  "sideEffects": false,
   "scripts": {
-    "test": "vitest run --globals",
-    "test:compatibility": "node test/compatibility-smoke.cjs",
-    "update": "ncu -u && npm i && npm audit fix --force && npm i"
+    "test": "vitest run",
+    "test:compatibility": "node test/compatibility-smoke.mjs",
+    "test:package": "node test/package-smoke.mjs",
+    "test:tree-shaking": "vitest run test/tree-shaking.test.js",
+    "test:types": "tsc --project test/tsconfig.json",
+    "check:package": "publint && attw --pack . --profile esm-only",
+    "check": "npm audit --audit-level=moderate && npm test && npm run test:types && npm run test:compatibility && npm run test:package && npm run check:package && npm pack --dry-run"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "repository": {
     "type": "git",
@@ -21,8 +64,9 @@
     "CSON",
     "PLIST",
     "TOML",
-    "Serial",
-    "Conversion"
+    "serialization",
+    "conversion",
+    "tree-shaking"
   ],
   "author": "Alex Gorischek",
   "license": "MIT",
@@ -31,17 +75,19 @@
   },
   "homepage": "https://github.com/agorischek/multigrain#readme",
   "dependencies": {
-    "@iarna/toml": "^2.2.5",
-    "clone": "^2.1.2",
     "cson": "^8.4.0",
-    "json-stringify-pretty-compact": "^3.0.0",
-    "plist": "^3.1.1",
-    "yaml": "^2.8.4"
+    "json-stringify-pretty-compact": "^4.0.0",
+    "plist": "^5.0.0",
+    "smol-toml": "^1.7.1",
+    "yaml": "^2.9.0"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
     "@emnapi/core": "2.0.0-alpha.3",
     "@emnapi/runtime": "2.0.0-alpha.3",
-    "npm-check-updates": "^22.1.1",
+    "esbuild": "^0.28.1",
+    "publint": "^0.3.22",
+    "typescript": "^7.0.2",
     "vitest": "^4.1.10"
   }
 }
