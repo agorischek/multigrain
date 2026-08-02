@@ -28,12 +28,6 @@ updates:
           - minor
           - patch
     ignore:
-      - dependency-name: "@iarna/toml"
-        update-types:
-          - version-update:semver-major
-      - dependency-name: clone
-        update-types:
-          - version-update:semver-major
       - dependency-name: cson
         update-types:
           - version-update:semver-major
@@ -41,6 +35,9 @@ updates:
         update-types:
           - version-update:semver-major
       - dependency-name: plist
+        update-types:
+          - version-update:semver-major
+      - dependency-name: smol-toml
         update-types:
           - version-update:semver-major
       - dependency-name: yaml

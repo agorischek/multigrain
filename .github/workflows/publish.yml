@@ -38,14 +38,17 @@ jobs:
       - name: Audit dependencies
         run: npm audit --audit-level=moderate
 
-      - name: Build
-        run: npm run build --if-present
-
       - name: Test
         run: npm test
 
       - name: Test compatibility contract
         run: npm run test:compatibility
+
+      - name: Test installed package
+        run: npm run test:package
+
+      - name: Verify package exports and types
+        run: npm run check:package
 
       - name: Check release state
         id: release_state

@@ -1,8 +1,8 @@
-<img alt="Multigrain logo" src="img/logo.png" width="195px" height = "195px" />
+<img alt="Multigrain logo" src="img/logo.png" width="195" height="195" />
 
 # Multigrain
 
-Single-step conversion between JSON, YAML, CSON, PLIST, & TOML.
+Tree-shakeable conversion between JSON, YAML, CSON, PLIST, and TOML.
 
 [![CI](https://github.com/agorischek/multigrain/actions/workflows/ci.yml/badge.svg)](https://github.com/agorischek/multigrain/actions/workflows/ci.yml)
 [![Version](https://img.shields.io/npm/v/multigrain.svg)](https://www.npmjs.com/package/multigrain)
@@ -12,73 +12,147 @@ Single-step conversion between JSON, YAML, CSON, PLIST, & TOML.
 npm install multigrain
 ```
 
-Multigrain 2.1 supports Node.js 18 and newer. It retains the synchronous
-CommonJS API for compatibility with existing applications.
+Multigrain 3 is an ESM-only package for Node.js 20 and newer. It has a small,
+dependency-free core and one entry point per serialization format.
 
-Multigrain provides simple conversion between common serial formats, avoiding the need to manually chain processors with differing syntaxes when a variety of formats and conversions are necessary. This can be particularly useful when multiple consumers require the same information in different serialized formats, such as [language grammars](http://docs.sublimetext.info/en/latest/reference/syntaxdefs.html).
+## Convert between formats
 
-## Use
-
-The most basic use is to call the desired output format function and pass an input string or JavaScript object. Multigrain will return a string in the requested format. If a string is passed as input, Multigrain will use some simple heuristics to infer the input format.
+Import only the format adapters your application uses:
 
 ```js
-multigrain.json(input);
-multigrain.yaml(input);
-multigrain.cson(input);
-multigrain.plist(input);
-multigrain.toml(input);
+import { convert } from "multigrain";
+import { json } from "multigrain/json";
+import { yaml } from "multigrain/yaml";
+
+const output = convert("name: grain\n", {
+  from: yaml,
+  to: json,
+});
 ```
 
-Alternatively, `parse` will return a native JavaScript object.
+The root `multigrain` entry point does not import any serializer. In the example
+above, a bundler includes the JSON and YAML implementations but not CSON, PLIST,
+or TOML. The package declares `sideEffects: false`, and CI verifies these bundle
+boundaries with esbuild.
+
+Available adapter entry points are:
+
+- `multigrain/json`
+- `multigrain/yaml`
+- `multigrain/cson`
+- `multigrain/plist`
+- `multigrain/toml`
+
+The CSON adapter uses the older `cson` ecosystem and is intended for Node.js.
+The core and the other adapters can be bundled for browsers.
+
+## Parse and stringify
+
+Adapters can be used with the core helpers:
 
 ```js
-multigrain.parse(input);
+import { parse, stringify } from "multigrain";
+import { toml } from "multigrain/toml";
+
+const value = parse('name = "grain"', toml);
+const output = stringify({ name: "grain" }, toml);
 ```
 
-You can pass the input format explicitly (`json`, `yaml`, `cson`, `plist`, or `toml`) as the second argument. Unless your input format can vary unpredictably, this is recommended.
+Or directly:
 
 ```js
-multigrain.json(input, "toml");
+import { parse, stringify } from "multigrain/toml";
 ```
 
-Options supported by the underlying parser can be passed as an optional argument.
+Parser and serializer options are passed to the underlying implementation:
 
 ```js
-multigrain.yaml(input, "plist", parseOpts);
+import { parse } from "multigrain";
+import { yaml } from "multigrain/yaml";
+
+const value = parse(source, yaml, { merge: true });
 ```
 
-Supported build options can optionally be passed similarly.
+`convert` accepts `parseOptions` and `stringifyOptions` separately:
 
 ```js
-multigrain.cson(input, "json", parseOpts, buildOpts);
+convert(source, {
+  from: yaml,
+  to: json,
+  parseOptions: { merge: true },
+  stringifyOptions: { indent: 2, maxLength: 100 },
+});
 ```
 
-## Options
-
-Default parse and build options can be specified, which will be used for all following `parse` and `build` calls that don't specify explicit options.
+When the input is already a JavaScript value, omit `from`:
 
 ```js
-multigrain.options.yaml.parse({ merge: false });
-multigrain.options.cson.build({ indent: "  " });
+const output = convert({ name: "grain" }, { to: yaml });
 ```
 
-Options can also be reset to Multigrain defaults.
+## Runtime-selected formats
+
+Applications that select formats by name can create an explicit registry. Only
+the imported adapters become part of the application bundle.
 
 ```js
-multigrain.options.reset();
+import { createConverter } from "multigrain";
+import { json } from "multigrain/json";
+import { yaml } from "multigrain/yaml";
+
+const documents = createConverter([json, yaml]);
+
+documents.convert(source, {
+  from: "yaml",
+  to: "json",
+});
 ```
+
+If an application genuinely supports every format, `multigrain/all` provides a
+ready-made registry:
+
+```js
+import multigrain from "multigrain/all";
+
+const output = multigrain.convert(source, {
+  from: "plist",
+  to: "toml",
+});
+```
+
+Importing `multigrain/all` intentionally includes every processor.
+
+## Migrating from v2
+
+Version 3 intentionally changes the API and runtime contract:
+
+| v2 | v3 |
+| --- | --- |
+| CommonJS `require("multigrain")` | ESM `import` |
+| Node.js 18+ | Node.js 20+ |
+| Every processor loaded by the root module | Explicit, tree-shakeable format imports |
+| `multigrain.json(input, "yaml")` | `convert(input, { from: yaml, to: json })` |
+| `multigrain.parse(input, "yaml")` | `parse(input, yaml)` |
+| Heuristic input-format detection | Explicit source format |
+| Process-wide mutable default options | Options passed per operation |
+
+The explicit source format removes ambiguous detection behavior. The stateless
+option model also prevents one consumer from changing serialization behavior for
+another consumer in the same process.
+
+Applications that cannot migrate yet can remain on the maintained `2.x` line.
 
 ## Processors
 
-Multigrain uses the following processors for parsing and building:
+- JSON: the built-in `JSON.parse` and `json-stringify-pretty-compact`
+- YAML: `yaml`
+- CSON: `cson`
+- PLIST: `plist`
+- TOML: `smol-toml`
 
-- YAML: [yaml](https://www.npmjs.com/package/yaml)
-- CSON: [cson](https://www.npmjs.com/package/cson)
-- PLIST: [plist](https://www.npmjs.com/package/plist)
-- TOML: [@iarna/toml](https://www.npmjs.com/package/@iarna/toml)
-- JSON: [JSON.parse](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse) for parsing and [json-stringify-pretty-compact](https://www.npmjs.com/package/json-stringify-pretty-compact) for building (with default `indent` of `\t` and `maxLength` of `0`)
-
-See their respective documentation for parse and build options.
+The PLIST 5 adapter accepts XML, binary, and OpenStep property lists. The TOML
+adapter moves from the unmaintained `@iarna/toml` implementation used by v2 to
+`smol-toml`.
 
 ## Publishing
 
