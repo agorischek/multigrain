@@ -141,6 +141,10 @@ option model also prevents one consumer from changing serialization behavior for
 another consumer in the same process.
 
 Applications that cannot migrate yet can remain on the maintained `2.x` line.
+The `v2` branch receives compatibility fixes and dependency maintenance; new
+features belong on v3. Its scheduled Dependabot updates are limited to
+development dependencies and GitHub Actions so routine maintenance does not
+raise the published runtime dependency floors.
 
 ## Processors
 

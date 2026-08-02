@@ -61,3 +61,45 @@ updates:
         update-types:
           - minor
           - patch
+
+  - package-ecosystem: npm
+    directory: "/"
+    target-branch: v2
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: America/Los_Angeles
+    cooldown:
+      default-days: 7
+    versioning-strategy: increase-if-necessary
+    open-pull-requests-limit: 5
+    allow:
+      - dependency-type: development
+    groups:
+      v2-development-routine:
+        dependency-type: development
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    target-branch: v2
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: America/Los_Angeles
+    cooldown:
+      default-days: 7
+    open-pull-requests-limit: 3
+    groups:
+      v2-routine-actions:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
