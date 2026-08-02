@@ -1,11 +1,15 @@
 {
   "name": "multigrain",
-  "version": "2.0.4",
+  "version": "2.1.0",
   "description": "Single-step conversion between JSON, YAML, CSON, PLIST, and TOML.",
   "main": "lib/index.js",
   "scripts": {
     "test": "vitest run --globals",
+    "test:compatibility": "node test/compatibility-smoke.cjs",
     "update": "ncu -u && npm i && npm audit fix --force && npm i"
+  },
+  "engines": {
+    "node": ">=18"
   },
   "repository": {
     "type": "git",
@@ -30,12 +34,14 @@
     "@iarna/toml": "^2.2.5",
     "clone": "^2.1.2",
     "cson": "^8.4.0",
-    "json-stringify-pretty-compact": "^4.0.0",
+    "json-stringify-pretty-compact": "^3.0.0",
     "plist": "^3.1.1",
     "yaml": "^2.8.4"
   },
   "devDependencies": {
+    "@emnapi/core": "2.0.0-alpha.3",
+    "@emnapi/runtime": "2.0.0-alpha.3",
     "npm-check-updates": "^22.1.1",
-    "vitest": "^4.1.8"
+    "vitest": "^4.1.10"
   }
 }
