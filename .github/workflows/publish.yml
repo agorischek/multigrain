@@ -1,6 +1,12 @@
 name: Publish Package
 
 on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Exact v-prefixed semantic version to publish
+        required: true
+        type: string
   push:
     tags:
       - 'v*'
@@ -21,12 +27,13 @@ jobs:
 
     steps:
       - name: Check out source
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          ref: ${{ github.event_name == 'workflow_dispatch' && format('refs/tags/{0}', inputs.version) || github.ref }}
 
       - name: Set up Node
-        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
@@ -51,24 +58,48 @@ jobs:
         id: release_state
         env:
           GH_TOKEN: ${{ github.token }}
-          REF_NAME: ${{ github.ref_name }}
+          REF_NAME: ${{ github.event_name == 'workflow_dispatch' && inputs.version || github.ref_name }}
         run: |
           package_name="$(node -p "require('./package.json').name")"
-          package_version="$(node -p "require('./package.json').version")"
-          if [ "$REF_NAME" != "v${package_version}" ]; then
-            echo "::error::Tag ${REF_NAME} does not match package version ${package_version}."
+          if ! printf '%s' "$REF_NAME" | grep -Eq '^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$'; then
+            echo "::error::Release ref must be vMAJOR.MINOR.PATCH."
             exit 1
           fi
-          if npm view "${package_name}@${package_version}" version >/dev/null 2>&1; then
+          package_version="${REF_NAME#v}"
+          set +e
+          npm_error="$(npm view "${package_name}@${package_version}" version 2>&1)"
+          npm_status=$?
+          set -e
+          if [ "$npm_status" -eq 0 ]; then
             echo "package_published=true" >> "$GITHUB_OUTPUT"
-          else
+          elif grep -qiE 'E404|404 Not Found|is not in this registry' <<<"$npm_error"; then
             echo "package_published=false" >> "$GITHUB_OUTPUT"
-          fi
-          if gh release view "$REF_NAME" >/dev/null 2>&1; then
-            echo "release_exists=true" >> "$GITHUB_OUTPUT"
           else
-            echo "release_exists=false" >> "$GITHUB_OUTPUT"
+            printf '%s\n' "$npm_error" >&2
+            exit "$npm_status"
           fi
+          set +e
+          release_error="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$REF_NAME" --silent 2>&1)"
+          release_status=$?
+          set -e
+          if [ "$release_status" -eq 0 ]; then
+            echo "release_exists=true" >> "$GITHUB_OUTPUT"
+          elif grep -q 'HTTP 404' <<<"$release_error"; then
+            echo "release_exists=false" >> "$GITHUB_OUTPUT"
+          else
+            printf '%s\n' "$release_error" >&2
+            exit "$release_status"
+          fi
+
+      - name: Stamp publish manifest
+        if: steps.release_state.outputs.package_published != 'true'
+        env:
+          REF_NAME: ${{ github.event_name == 'workflow_dispatch' && inputs.version || github.ref_name }}
+        run: |
+          npm version "${REF_NAME#v}" --no-git-tag-version --allow-same-version
+          test "$(node -p "require('./package.json').version")" = "${REF_NAME#v}"
+          test "$(node -p "require('./package-lock.json').version")" = "${REF_NAME#v}"
+          npm pack --dry-run
 
       - name: Publish to npm
         if: steps.release_state.outputs.package_published != 'true'
@@ -78,5 +109,5 @@ jobs:
         if: steps.release_state.outputs.release_exists != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
-          REF_NAME: ${{ github.ref_name }}
+          REF_NAME: ${{ github.event_name == 'workflow_dispatch' && inputs.version || github.ref_name }}
         run: gh release create "$REF_NAME" --verify-tag --generate-notes --title "$REF_NAME"

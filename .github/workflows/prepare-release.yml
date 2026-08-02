@@ -1,0 +1,122 @@
+name: Prepare Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Exact v-prefixed semantic version requested by Garden
+        required: true
+        type: string
+
+permissions:
+  actions: write
+  contents: write
+
+concurrency:
+  group: prepare-release-${{ inputs.version }}
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    name: Prepare release
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out release branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ github.sha }}
+
+      - name: Validate release request
+        env:
+          EXPECTED_BRANCH: v2
+          VERSION: ${{ inputs.version }}
+        run: |
+          if [ "$GITHUB_REF_NAME" != "$EXPECTED_BRANCH" ]; then
+            echo "::error::Releases from this workflow must target $EXPECTED_BRANCH."
+            exit 1
+          fi
+          if ! printf '%s' "$VERSION" | grep -Eq '^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$'; then
+            echo "::error::Garden version must be vMAJOR.MINOR.PATCH."
+            exit 1
+          fi
+          package_major="$(node -p "require('./package.json').version.split('.')[0]")"
+          requested_major="${VERSION#v}"
+          requested_major="${requested_major%%.*}"
+          if [ "$requested_major" != "$package_major" ]; then
+            echo "::error::Requested $VERSION does not belong to this v${package_major}.x release line."
+            exit 1
+          fi
+
+      - name: Inspect release state
+        id: release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          set +e
+          tag_error="$(gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$VERSION" --jq '.object.type + " " + .object.sha' 2>&1)"
+          tag_status=$?
+          set -e
+          if [ "$tag_status" -eq 0 ]; then
+            read -r tag_type tag_sha <<<"$tag_error"
+            while [ "$tag_type" = "tag" ]; do
+              read -r tag_type tag_sha <<<"$(
+                gh api "repos/$GITHUB_REPOSITORY/git/tags/$tag_sha" \
+                  --jq '.object.type + " " + .object.sha'
+              )"
+            done
+            if [ "$tag_type" != "commit" ] || [ "$tag_sha" != "$GITHUB_SHA" ]; then
+              echo "::error::$VERSION already points to $tag_type $tag_sha instead of dispatch commit $GITHUB_SHA."
+              exit 1
+            fi
+            echo "tag_exists=true" >> "$GITHUB_OUTPUT"
+          elif grep -q 'HTTP 404' <<<"$tag_error"; then
+            echo "tag_exists=false" >> "$GITHUB_OUTPUT"
+          else
+            printf '%s\n' "$tag_error" >&2
+            exit "$tag_status"
+          fi
+
+          set +e
+          release_error="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$VERSION" --silent 2>&1)"
+          release_status=$?
+          set -e
+          if [ "$release_status" -eq 0 ]; then
+            echo "release_exists=true" >> "$GITHUB_OUTPUT"
+          elif grep -q 'HTTP 404' <<<"$release_error"; then
+            echo "release_exists=false" >> "$GITHUB_OUTPUT"
+          else
+            printf '%s\n' "$release_error" >&2
+            exit "$release_status"
+          fi
+
+      - name: Create annotated tag
+        if: steps.release.outputs.tag_exists != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          tag_sha="$(
+            gh api "repos/$GITHUB_REPOSITORY/git/tags" \
+              --method POST \
+              -f tag="$VERSION" \
+              -f message="Release $VERSION" \
+              -f object="$GITHUB_SHA" \
+              -f type=commit \
+              --jq .sha
+          )"
+          gh api "repos/$GITHUB_REPOSITORY/git/refs" \
+            --method POST \
+            -f ref="refs/tags/$VERSION" \
+            -f sha="$tag_sha"
+
+      - name: Dispatch publisher
+        if: steps.release.outputs.release_exists != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version }}
+        run: gh workflow run publish.yml --ref "$VERSION" -f version="$VERSION"
