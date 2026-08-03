@@ -41,7 +41,7 @@
   "devDependencies": {
     "@emnapi/core": "2.0.0-alpha.3",
     "@emnapi/runtime": "2.0.0-alpha.3",
-    "npm-check-updates": "^22.1.1",
+    "npm-check-updates": "^23.0.0",
     "vitest": "^4.1.10"
   }
 }
