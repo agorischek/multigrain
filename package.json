@@ -39,7 +39,7 @@
     "yaml": "^2.8.4"
   },
   "devDependencies": {
-    "@emnapi/core": "2.0.0-alpha.3",
+    "@emnapi/core": "2.0.0-alpha.4",
     "@emnapi/runtime": "2.0.0-alpha.4",
     "npm-check-updates": "^23.0.0",
     "vitest": "^4.1.10"
