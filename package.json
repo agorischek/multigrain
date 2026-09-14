@@ -84,7 +84,7 @@
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",
     "@emnapi/core": "2.0.0-alpha.5",
-    "@emnapi/runtime": "2.0.0-alpha.4",
+    "@emnapi/runtime": "2.0.0-alpha.5",
     "esbuild": "^0.28.1",
     "publint": "^0.3.22",
     "typescript": "^7.0.2",
