@@ -9,11 +9,18 @@ const sample = {
   tags: ["a", "b"],
   nested: { value: 2 },
 };
+const tomlSample = Object.assign(Object.create(null), sample, {
+  nested: Object.assign(Object.create(null), sample.nested),
+});
 
 for (const format of [json, yaml, cson, plist, toml]) {
   const encoded = stringify(sample, format);
   assert.equal(typeof encoded, "string", `${format.name} did not return text`);
-  assert.deepEqual(parse(encoded, format), sample, `${format.name} changed data`);
+  assert.deepEqual(
+    parse(encoded, format),
+    format === toml ? tomlSample : sample,
+    `${format.name} changed data`
+  );
 }
 
 assert.deepEqual(
@@ -21,6 +28,7 @@ assert.deepEqual(
   { name: "grain" }
 );
 assert.equal(multigrain.has("yaml"), true);
-assert.deepEqual(multigrain.parse("name = 'grain'", "toml"), {
-  name: "grain",
-});
+assert.deepEqual(
+  multigrain.parse("name = 'grain'", "toml"),
+  Object.assign(Object.create(null), { name: "grain" })
+);
