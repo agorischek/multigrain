@@ -17,6 +17,9 @@ const sample = {
   tags: ["a", "b"],
   nested: { value: 2 },
 };
+const tomlSample = Object.assign(Object.create(null), sample, {
+  nested: Object.assign(Object.create(null), sample.nested),
+});
 
 describe("format adapters", () => {
   for (const format of [json, yaml, cson, plist, toml]) {
@@ -24,7 +27,7 @@ describe("format adapters", () => {
       const encoded = stringify(sample, format);
 
       assert.equal(typeof encoded, "string");
-      assert.deepEqual(parse(encoded, format), sample);
+      assert.deepEqual(parse(encoded, format), format === toml ? tomlSample : sample);
     });
   }
 
@@ -61,9 +64,10 @@ describe("format adapters", () => {
 
   it("offers an explicit all-formats registry", () => {
     assert.deepEqual(multigrain.formats, ["cson", "json", "plist", "toml", "yaml"]);
-    assert.deepEqual(multigrain.parse("name = 'grain'", "toml"), {
-      name: "grain",
-    });
+    assert.deepEqual(
+      multigrain.parse("name = 'grain'", "toml"),
+      Object.assign(Object.create(null), { name: "grain" })
+    );
     assert.match(
       multigrain.convert("name = 'grain'", { from: "toml", to: "yaml" }),
       /^name: grain/m
