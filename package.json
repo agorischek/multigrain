@@ -83,7 +83,7 @@
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",
-    "@emnapi/core": "2.0.0-beta.1",
+    "@emnapi/core": "2.0.0-beta.2",
     "@emnapi/runtime": "2.0.0-beta.1",
     "esbuild": "^0.28.1",
     "publint": "^0.3.22",
